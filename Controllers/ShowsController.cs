@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using CinemaManager.Data;
 using CinemaManager.Models;
+using Microsoft.VisualStudio.Web.CodeGeneration.Contracts.Messaging;
 
 namespace CinemaManager.Controllers
 {
@@ -22,7 +23,9 @@ namespace CinemaManager.Controllers
         // GET: Shows
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Show.ToListAsync());
+            return View(await _context.Shows
+                .Include(q => q.Film)
+                .ToListAsync());
         }
 
         // GET: Shows/Details/5
@@ -33,7 +36,8 @@ namespace CinemaManager.Controllers
                 return NotFound();
             }
 
-            var show = await _context.Show
+            var show = await _context.Shows
+                .Include(q=>q.Film)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (show == null)
             {
@@ -43,21 +47,64 @@ namespace CinemaManager.Controllers
             return View(show);
         }
 
+        //public SelectList FilmsSL { get; set; }
+
+        //public void PopulateFilmsDropDownList(CinemaManagerContext _context,
+        //    object selectedFilm = null)
+        //{
+        //    var filmsQuery = from d in _context.Films
+        //                     orderby d.Title // Sort by name.
+        //                     select d;
+
+        //    FilmsSL = new SelectList(filmsQuery.AsNoTracking(),
+        //                "Id", "Title", selectedFilm);
+        //}
+
         // GET: Shows/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            return View();
+            IQueryable<string> titleQuery = from f in _context.Films
+                                            orderby f.Title
+                                            select f.Title;
+            //PopulateFilmsDropDownList(_context);
+            //List<Film> allFilms = await _context.Films.ToListAsync();
+            
+            var filmTitleVM = new FilmTitleViewModel
+            {
+                //Film = await _context.Films.ToListAsync(),
+                Titles = new SelectList(await titleQuery.Distinct().ToListAsync())
+            };
+            return View(filmTitleVM);
         }
 
+    
         // POST: Shows/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Genre,Price,ShowDate")] Show show)
+        public async Task<IActionResult> Create([Bind("Id,Title,Genre,Price,ShowDate")] Show show, string filmTitle)
         {
-            if (ModelState.IsValid)
+            var film = _context.Films.FirstOrDefault(x => x.Title == filmTitle);
+
+            if(film==null)
             {
+                //jesli nie ma takiego filmu, to zaznacz okienko na czerwono
+                return RedirectToAction(nameof(Create));
+            }
+
+            if (film != null)
+            {
+                show.Film = film;
+            }
+
+            if (show == null)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {               
                 _context.Add(show);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -73,7 +120,7 @@ namespace CinemaManager.Controllers
                 return NotFound();
             }
 
-            var show = await _context.Show.FindAsync(id);
+            var show = await _context.Shows.FindAsync(id);
             if (show == null)
             {
                 return NotFound();
@@ -124,7 +171,7 @@ namespace CinemaManager.Controllers
                 return NotFound();
             }
 
-            var show = await _context.Show
+            var show = await _context.Shows
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (show == null)
             {
@@ -139,15 +186,15 @@ namespace CinemaManager.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var show = await _context.Show.FindAsync(id);
-            _context.Show.Remove(show);
+            var show = await _context.Shows.FindAsync(id);
+            _context.Shows.Remove(show);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool ShowExists(int id)
         {
-            return _context.Show.Any(e => e.Id == id);
+            return _context.Shows.Any(e => e.Id == id);
         }
     }
 }

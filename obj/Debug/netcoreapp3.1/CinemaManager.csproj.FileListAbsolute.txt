@@ -156,7 +156,6 @@ C:\Users\user\source\repos\CinemaManager\CinemaManager\bin\Debug\netcoreapp3.1\r
 C:\Users\user\source\repos\CinemaManager\CinemaManager\bin\Debug\netcoreapp3.1\runtimes\unix\lib\netcoreapp2.0\System.Runtime.Caching.dll
 C:\Users\user\source\repos\CinemaManager\CinemaManager\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp2.0\System.Runtime.Caching.dll
 C:\Users\user\source\repos\CinemaManager\CinemaManager\bin\Debug\netcoreapp3.1\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
-C:\Users\user\source\repos\CinemaManager\CinemaManager\obj\Debug\netcoreapp3.1\CinemaManager.csprojAssemblyReference.cache
 C:\Users\user\source\repos\CinemaManager\CinemaManager\obj\Debug\netcoreapp3.1\CinemaManager.AssemblyInfoInputs.cache
 C:\Users\user\source\repos\CinemaManager\CinemaManager\obj\Debug\netcoreapp3.1\CinemaManager.AssemblyInfo.cs
 C:\Users\user\source\repos\CinemaManager\CinemaManager\obj\Debug\netcoreapp3.1\CinemaManager.csproj.CoreCompileInputs.cache
@@ -190,3 +189,4 @@ C:\Users\user\source\repos\CinemaManager\CinemaManager\obj\Debug\netcoreapp3.1\R
 C:\Users\user\source\repos\CinemaManager\CinemaManager\obj\Debug\netcoreapp3.1\Razor\Views\Shows\Details.cshtml.g.cs
 C:\Users\user\source\repos\CinemaManager\CinemaManager\obj\Debug\netcoreapp3.1\Razor\Views\Shows\Edit.cshtml.g.cs
 C:\Users\user\source\repos\CinemaManager\CinemaManager\obj\Debug\netcoreapp3.1\Razor\Views\Shows\Index.cshtml.g.cs
+C:\Users\user\source\repos\CinemaManager\CinemaManager\obj\Debug\netcoreapp3.1\CinemaManager.csprojAssemblyReference.cache

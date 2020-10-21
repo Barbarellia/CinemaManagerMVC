@@ -12,6 +12,9 @@ namespace CinemaManager.Data
         {
         }
 
-        public DbSet<Show> Show { get; set; }
+        public DbSet<Show> Shows { get; set; }
+        public DbSet<Film> Films { get; set; }
+        public DbSet<Hall>  Halls { get; set; }
+        public DbSet<Reservation> Reservations { get; set; }
     }
 }
