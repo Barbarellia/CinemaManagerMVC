@@ -25,11 +25,12 @@ namespace CinemaManager.Controllers
         {
             return View(await _context.Shows
                 .Include(q => q.Film)
+                .Include(p=>p.Hall)
                 .ToListAsync());
         }
 
         // GET: Shows/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(int? id, int? row, int? column)
         {
             if (id == null)
             {
@@ -38,43 +39,52 @@ namespace CinemaManager.Controllers
 
             var show = await _context.Shows
                 .Include(q=>q.Film)
+                .Include(p => p.Hall)
                 .FirstOrDefaultAsync(m => m.Id == id);
+
             if (show == null)
             {
                 return NotFound();
             }
 
+            Reservation res = new Reservation{
+                Show = show
+            };
+
+            //zanim wejdziesz do ifa, sprawdz czy nie ma w kontekscie tych parametrow
+            //w gecie details na poczatku sprawdzaj czy cos jest modyfikowane; jesli jest to znajdz jego seat, row i date i zrob je zolte disabled; 
+            //jesli datetime.now-data zapisana > 60s, usun ja i reload
+            _context.Reservations.Add(res);
+            var x = _context.ChangeTracker.HasChanges();
+            var y = _context.ChangeTracker.Entries();
+
+            if(row!=null && column != null)
+            {
+                res.ReservationDate = DateTime.Now;
+                res.SeatRow = (int)row;
+                res.SeatColumn = (int)column;
+                //ktos naciska na miejsce- dodawanie rezerwacji bez save'a
+                TempData["row"] = (int)row;
+                TempData["column"] = (int)column;
+                ModelState.AddModelError(string.Empty, "Rezerwuj bilet szypko, masz 60s");
+            }
+
             return View(show);
         }
 
-        //public SelectList FilmsSL { get; set; }
-
-        //public void PopulateFilmsDropDownList(CinemaManagerContext _context,
-        //    object selectedFilm = null)
-        //{
-        //    var filmsQuery = from d in _context.Films
-        //                     orderby d.Title // Sort by name.
-        //                     select d;
-
-        //    FilmsSL = new SelectList(filmsQuery.AsNoTracking(),
-        //                "Id", "Title", selectedFilm);
-        //}
-
         // GET: Shows/Create
-        public async Task<IActionResult> Create()
+        public IActionResult Create()
         {
-            IQueryable<string> titleQuery = from f in _context.Films
-                                            orderby f.Title
-                                            select f.Title;
-            //PopulateFilmsDropDownList(_context);
-            //List<Film> allFilms = await _context.Films.ToListAsync();
-            
-            var filmTitleVM = new FilmTitleViewModel
-            {
-                //Film = await _context.Films.ToListAsync(),
-                Titles = new SelectList(await titleQuery.Distinct().ToListAsync())
-            };
-            return View(filmTitleVM);
+            //IQueryable<string> titleQuery = from f in _context.Films
+            //                                orderby f.Title
+            //                                select f.Title;
+         
+            //var filmTitleVM = new FilmTitleViewModel
+            //{
+            //    //Film = await _context.Films.ToListAsync(),
+            //    Titles = new SelectList(await titleQuery.Distinct().ToListAsync())
+            //};
+            return View();
         }
 
     
@@ -83,25 +93,37 @@ namespace CinemaManager.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Title,Genre,Price,ShowDate")] Show show, string filmTitle)
+        public async Task<IActionResult> Create([Bind("Id,Title,Genre,Price,ShowDate")] Show show, string filmTitle, int hallNr)
         {
-            var film = _context.Films.FirstOrDefault(x => x.Title == filmTitle);
-
-            if(film==null)
-            {
-                //jesli nie ma takiego filmu, to zaznacz okienko na czerwono
-                return RedirectToAction(nameof(Create));
-            }
-
-            if (film != null)
-            {
-                show.Film = film;
-            }
-
             if (show == null)
             {
                 return NotFound();
             }
+
+            var film = _context.Films.FirstOrDefault(x => x.Title == filmTitle);
+            var hall = _context.Halls.FirstOrDefault(q => q.Nr == hallNr);
+
+            if(film == null)
+            {
+                //jesli nie ma takiego filmu, to zaznacz okienko na czerwono
+                ModelState.AddModelError(string.Empty, "Film o podanym tytule nie istnieje w bazie");
+                //return View();
+            }
+            else
+            {
+                show.Film = film;
+            }
+
+            if (hall == null)
+            {
+                ModelState.AddModelError(string.Empty, "Sala o podanym numerze nie istnieje w bazie");
+                //return View();
+            }
+            else
+            {
+                show.Hall = hall;
+            }
+
 
             if (ModelState.IsValid)
             {               

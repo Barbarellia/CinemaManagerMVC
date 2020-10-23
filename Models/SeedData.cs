@@ -34,6 +34,21 @@ namespace CinemaManager.Models
                         }
                     );
 
+                    context.Halls.AddRange(
+                        new Hall
+                        {
+                            Nr=1,
+                            Rows=3,
+                            Columns=3
+                        },
+                        new Hall
+                        {
+                            Nr=2,
+                            Rows=5,
+                            Columns=5
+                        }
+                    );
+
                     context.SaveChanges();
 
                     context.Shows.AddRange(
@@ -42,7 +57,8 @@ namespace CinemaManager.Models
                             ShowDate = DateTime.Parse("1989-2-12"),
                             Genre = "Romantic Comedy",
                             Price = 7.99M,
-                            Film = context.Films.FirstOrDefault(q => q.Title == "Rio Bravo")
+                            Film = context.Films.FirstOrDefault(q => q.Title == "Rio Bravo"),
+                            Hall = context.Halls.FirstOrDefault(h=> h.Nr == 1)
                         },
 
                         new Show
@@ -50,7 +66,8 @@ namespace CinemaManager.Models
                             ShowDate = DateTime.Parse("1984-3-13"),
                             Genre = "Comedy",
                             Price = 8.99M,
-                            Film = context.Films.FirstOrDefault(q => q.Title == "Pulp Fiction")
+                            Film = context.Films.FirstOrDefault(q => q.Title == "Pulp Fiction"),
+                            Hall = context.Halls.FirstOrDefault(h => h.Nr == 1)
                         },
 
                         new Show
@@ -58,7 +75,8 @@ namespace CinemaManager.Models
                             ShowDate = DateTime.Parse("1986-2-23"),
                             Genre = "Comedy",
                             Price = 9.99M,
-                            Film = context.Films.FirstOrDefault(q => q.Title == "Ghostbusters")
+                            Film = context.Films.FirstOrDefault(q => q.Title == "Ghostbusters"),
+                            Hall = context.Halls.FirstOrDefault(h => h.Nr == 1)
                         }
                     );
 

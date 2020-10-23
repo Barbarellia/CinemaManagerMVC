@@ -15,6 +15,7 @@ namespace CinemaManager.Models
         public int Nr { get; set; }
         [Required]
         [Display(Name = "Number of seats")]
-        public int Seats { get; set; }
+        public int Rows { get; set; }
+        public int Columns { get; set; }
     }
 }

@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CinemaManager.Migrations
 {
     [DbContext(typeof(CinemaManagerContext))]
-    [Migration("20201019144128_mig")]
-    partial class mig
+    [Migration("20201023124929_Mig")]
+    partial class Mig
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -45,10 +45,13 @@ namespace CinemaManager.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int>("Columns")
+                        .HasColumnType("int");
+
                     b.Property<int>("Nr")
                         .HasColumnType("int");
 
-                    b.Property<int>("Seats")
+                    b.Property<int>("Rows")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -65,6 +68,12 @@ namespace CinemaManager.Migrations
 
                     b.Property<DateTime>("ReservationDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<int?>("SeatColumn")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("SeatRow")
+                        .HasColumnType("int");
 
                     b.Property<int?>("ShowId")
                         .HasColumnType("int");
@@ -312,7 +321,7 @@ namespace CinemaManager.Migrations
             modelBuilder.Entity("CinemaManager.Models.Reservation", b =>
                 {
                     b.HasOne("CinemaManager.Models.Show", "Show")
-                        .WithMany()
+                        .WithMany("Reservations")
                         .HasForeignKey("ShowId");
                 });
 

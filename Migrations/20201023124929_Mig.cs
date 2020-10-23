@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace CinemaManager.Migrations
 {
-    public partial class mig : Migration
+    public partial class Mig : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -66,7 +66,8 @@ namespace CinemaManager.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Nr = table.Column<int>(nullable: false),
-                    Seats = table.Column<int>(nullable: false)
+                    Rows = table.Column<int>(nullable: false),
+                    Columns = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -215,6 +216,8 @@ namespace CinemaManager.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ShowId = table.Column<int>(nullable: true),
+                    SeatRow = table.Column<int>(nullable: true),
+                    SeatColumn = table.Column<int>(nullable: true),
                     ReservationDate = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>

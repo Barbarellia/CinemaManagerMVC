@@ -8,6 +8,12 @@
   <ItemGroup>
     <Compile Remove="Migrations\20201016114303_Mig.cs" />
     <Compile Remove="Migrations\20201016114303_Mig.Designer.cs" />
+    <Compile Remove="Migrations\20201019144128_mig.cs" />
+    <Compile Remove="Migrations\20201019144128_mig.Designer.cs" />
+    <Compile Remove="Migrations\20201021172912_Mig.cs" />
+    <Compile Remove="Migrations\20201021172912_Mig.Designer.cs" />
+    <Compile Remove="Migrations\20201022103545_Mig.cs" />
+    <Compile Remove="Migrations\20201022103545_Mig.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

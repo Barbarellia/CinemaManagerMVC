@@ -13,6 +13,7 @@ namespace CinemaManager.Models
 
         public Film Film { get; set; }
         public Hall Hall { get; set; }
+        public List<Reservation> Reservations { get; set; }
 
         [RegularExpression(@"^[A-Z]+[a-zA-Z]*$")]
         [Required]
