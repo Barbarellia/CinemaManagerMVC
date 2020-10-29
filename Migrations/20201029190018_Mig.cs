@@ -216,9 +216,12 @@ namespace CinemaManager.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ShowId = table.Column<int>(nullable: true),
+                    UserId = table.Column<string>(nullable: true),
                     SeatRow = table.Column<int>(nullable: true),
                     SeatColumn = table.Column<int>(nullable: true),
-                    ReservationDate = table.Column<DateTime>(nullable: false)
+                    ConfirmationDate = table.Column<DateTime>(nullable: true),
+                    ClickDate = table.Column<DateTime>(nullable: false),
+                    IsConfirmed = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {

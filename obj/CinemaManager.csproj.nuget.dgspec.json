@@ -1,23 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\user\\source\\repos\\CinemaManager\\CinemaManager\\CinemaManager.csproj": {}
+    "D:\\C#Projects\\CinemaManagerMVC\\CinemaManager.csproj": {}
   },
   "projects": {
-    "C:\\Users\\user\\source\\repos\\CinemaManager\\CinemaManager\\CinemaManager.csproj": {
+    "D:\\C#Projects\\CinemaManagerMVC\\CinemaManager.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\user\\source\\repos\\CinemaManager\\CinemaManager\\CinemaManager.csproj",
+        "projectUniqueName": "D:\\C#Projects\\CinemaManagerMVC\\CinemaManager.csproj",
         "projectName": "CinemaManager",
-        "projectPath": "C:\\Users\\user\\source\\repos\\CinemaManager\\CinemaManager\\CinemaManager.csproj",
-        "packagesPath": "C:\\Users\\user\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\user\\source\\repos\\CinemaManager\\CinemaManager\\obj\\",
+        "projectPath": "D:\\C#Projects\\CinemaManagerMVC\\CinemaManager.csproj",
+        "packagesPath": "C:\\Users\\basia\\.nuget\\packages\\",
+        "outputPath": "D:\\C#Projects\\CinemaManagerMVC\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-        ],
         "configFilePaths": [
-          "C:\\Users\\user\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\basia\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -90,7 +87,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.402\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.100\\RuntimeIdentifierGraph.json"
         }
       }
     }

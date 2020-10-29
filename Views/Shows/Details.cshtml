@@ -50,28 +50,40 @@
     </dl>
 </div>
 <div asp-validation-summary="ModelOnly" class="text-warning"></div>
-@for (int i = 0; i < Model.Hall.Rows; i++)
-{
-    //string selectedSeat = TempData["selectedSeat"].ToString();
-
-    for (int j = 0; j < Model.Hall.Columns; j++)
+@{
+    List<Reservation> notConfirmed = (List<Reservation>)TempData["notConfirmed"];
+    for (int i = 0; i < Model.Hall.Rows; i++)
     {
-        if (TempData["row"] != null && TempData["column"] != null)
+        //string selectedSeat = TempData["selectedSeat"].ToString();
+
+        for (int j = 0; j < Model.Hall.Columns; j++)
         {
-            if (i == (int)TempData["row"] && j == (int)TempData["column"])
-            {<a asp-route-row="@i" asp-route-column="@j" class="btn btn-warning" role="button" style="width:40px" asp-action="Details">@(i * Model.Hall.Rows + j + 1)</a> }
+            //jesli sa jakies rezerwacje na ten show
+            if (notConfirmed != null && notConfirmed.Count > 0 && notConfirmed.Any(q => q.SeatRow == i && q.SeatColumn == j))
+            {
+                <a class="btn btn-danger disabled" role="button" style="width:40px">@(i * Model.Hall.Rows + j + 1)</a>
+            }
             else
-            {<a asp-route-row="@i" asp-route-column="@j" class="btn btn-outline-primary" role="button" style="width:40px" asp-action="Details">@(i * Model.Hall.Rows + j + 1)</a> }
+            {
+                if (TempData["row"] != null && TempData["column"] != null)
+                {
+                    if (i == (int)TempData["row"] && j == (int)TempData["column"])
+                    {
+                        <a asp-route-row="@i" asp-route-column="@j" class="btn btn-warning" role="button" style="width:40px" asp-action="Details">@(i * Model.Hall.Rows + j + 1)</a>
+                    }
+                    else
+                    {
+                        <a asp-route-row="@i" asp-route-column="@j" class="btn btn-outline-primary" role="button" style="width:40px" asp-action="Details">@(i * Model.Hall.Rows + j + 1)</a>
+                    }
+                }
+                else
+                {
+                    <a asp-route-row="@i" asp-route-column="@j" class="btn btn-outline-primary" role="button" style="width:40px" asp-action="Details">@(i * Model.Hall.Rows + j + 1)</a>
+                }
+            }
         }
-        else
-        {
-            //zanim wyswietlisz pelna sale pusta, sprawdz czy w kontekscie nie ma jakiejs wstepnej reserwacji
-            {<a asp-route-row="@i" asp-route-column="@j" class="btn btn-outline-primary" role="button" style="width:40px" asp-action="Details">@(i * Model.Hall.Rows + j + 1)</a> }
-        }
-
-
+        <br />
     }
-    <br />
 }
 <div>
     @*<a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |*@

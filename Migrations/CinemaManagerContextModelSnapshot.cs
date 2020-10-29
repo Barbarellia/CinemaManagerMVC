@@ -64,8 +64,14 @@ namespace CinemaManager.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime>("ReservationDate")
+                    b.Property<DateTime>("ClickDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("ConfirmationDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsConfirmed")
+                        .HasColumnType("bit");
 
                     b.Property<int?>("SeatColumn")
                         .HasColumnType("int");
@@ -75,6 +81,9 @@ namespace CinemaManager.Migrations
 
                     b.Property<int?>("ShowId")
                         .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 

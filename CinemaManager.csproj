@@ -14,6 +14,18 @@
     <Compile Remove="Migrations\20201021172912_Mig.Designer.cs" />
     <Compile Remove="Migrations\20201022103545_Mig.cs" />
     <Compile Remove="Migrations\20201022103545_Mig.Designer.cs" />
+    <Compile Remove="Migrations\20201029170727_Mig.cs" />
+    <Compile Remove="Migrations\20201029170727_Mig.Designer.cs" />
+    <Compile Remove="Migrations\20201029180215_Mig.cs" />
+    <Compile Remove="Migrations\20201029180215_Mig.Designer.cs" />
+    <Compile Remove="Migrations\20201029183330_Mig.cs" />
+    <Compile Remove="Migrations\20201029183330_Mig.Designer.cs" />
+    <Compile Remove="Migrations\20201029184628_Mig.cs" />
+    <Compile Remove="Migrations\20201029184628_Mig.Designer.cs" />
+    <Compile Remove="Migrations\20201029185440_Mig.cs" />
+    <Compile Remove="Migrations\20201029185440_Mig.Designer.cs" />
+    <Compile Remove="Migrations\20201029185735_Mig.cs" />
+    <Compile Remove="Migrations\20201029185735_Mig.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
