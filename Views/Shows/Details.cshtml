@@ -65,6 +65,7 @@
         }
         else
         {
+            //zanim wyswietlisz pelna sale pusta, sprawdz czy w kontekscie nie ma jakiejs wstepnej reserwacji
             {<a asp-route-row="@i" asp-route-column="@j" class="btn btn-outline-primary" role="button" style="width:40px" asp-action="Details">@(i * Model.Hall.Rows + j + 1)</a> }
         }
 

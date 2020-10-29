@@ -51,19 +51,22 @@ namespace CinemaManager.Controllers
                 Show = show
             };
 
+            bool x = _context.ChangeTracker.HasChanges();
+            var y = _context.ChangeTracker.Entries();
+
             //zanim wejdziesz do ifa, sprawdz czy nie ma w kontekscie tych parametrow
             //w gecie details na poczatku sprawdzaj czy cos jest modyfikowane; jesli jest to znajdz jego seat, row i date i zrob je zolte disabled; 
             //jesli datetime.now-data zapisana > 60s, usun ja i reload
-            _context.Reservations.Add(res);
-            var x = _context.ChangeTracker.HasChanges();
-            var y = _context.ChangeTracker.Entries();
+            //jesli w y jest ustawione row i column pod reservation
+            //pole ma byc na zolto i blocked
 
             if(row!=null && column != null)
             {
                 res.ReservationDate = DateTime.Now;
                 res.SeatRow = (int)row;
                 res.SeatColumn = (int)column;
-                //ktos naciska na miejsce- dodawanie rezerwacji bez save'a
+                //ktos naciska na miejsce - dodawanie rezerwacji do kontekstu (bez save'a)
+                _context.Reservations.Add(res);
                 TempData["row"] = (int)row;
                 TempData["column"] = (int)column;
                 ModelState.AddModelError(string.Empty, "Rezerwuj bilet szypko, masz 60s");

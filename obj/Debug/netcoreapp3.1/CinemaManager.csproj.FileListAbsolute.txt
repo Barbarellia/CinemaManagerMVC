@@ -190,3 +190,8 @@ C:\Users\user\source\repos\CinemaManager\CinemaManager\obj\Debug\netcoreapp3.1\R
 C:\Users\user\source\repos\CinemaManager\CinemaManager\obj\Debug\netcoreapp3.1\Razor\Views\Shows\Edit.cshtml.g.cs
 C:\Users\user\source\repos\CinemaManager\CinemaManager\obj\Debug\netcoreapp3.1\Razor\Views\Shows\Index.cshtml.g.cs
 C:\Users\user\source\repos\CinemaManager\CinemaManager\obj\Debug\netcoreapp3.1\CinemaManager.csprojAssemblyReference.cache
+C:\Users\user\source\repos\CinemaManager\CinemaManager\obj\Debug\netcoreapp3.1\Razor\Views\Films\Create.cshtml.g.cs
+C:\Users\user\source\repos\CinemaManager\CinemaManager\obj\Debug\netcoreapp3.1\Razor\Views\Films\Delete.cshtml.g.cs
+C:\Users\user\source\repos\CinemaManager\CinemaManager\obj\Debug\netcoreapp3.1\Razor\Views\Films\Details.cshtml.g.cs
+C:\Users\user\source\repos\CinemaManager\CinemaManager\obj\Debug\netcoreapp3.1\Razor\Views\Films\Edit.cshtml.g.cs
+C:\Users\user\source\repos\CinemaManager\CinemaManager\obj\Debug\netcoreapp3.1\Razor\Views\Films\Index.cshtml.g.cs
