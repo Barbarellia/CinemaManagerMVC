@@ -17,6 +17,7 @@ namespace CinemaManager.Controllers
     {
         private readonly CinemaManagerContext _context;
         private readonly UserManager<IdentityUser> _userManager;
+        private readonly TimeSpan expTime = new TimeSpan(0, 0, 10);
 
         public ShowsController(CinemaManagerContext context, UserManager<IdentityUser> userManager)
         {
@@ -35,15 +36,16 @@ namespace CinemaManager.Controllers
 
         // GET: Shows/Details/5
         public async Task<IActionResult> Details(int? id, int? row, int? column)
-        {            
+        {       
+            #region ExtractConfirmed
+
             var allShowReservations = await _context.Reservations
-                    .Include(x => x.Show)
-                    .Where(x => x.Show.Id == id)
-                    .ToListAsync();
+                .Include(x => x.Show)
+                .Where(x => x.Show.Id == id)
+                .ToListAsync();
 
-            var notConfirmed = allShowReservations.Where(x => x.IsConfirmed == false).ToList();
-
-            TimeSpan expTime = new TimeSpan(0, 0, 240);
+            var notConfirmed = allShowReservations.Where(x => !x.IsConfirmed).ToList();
+            var confirmed = allShowReservations.Where(x => x.IsConfirmed).ToList();
 
             var expired = notConfirmed.Where(q => DateTime.Now - q.ClickDate > expTime).ToList();
 
@@ -57,12 +59,16 @@ namespace CinemaManager.Controllers
             }
 
             TempData["notConfirmed"] = notConfirmed;
+            //TempData["confirmed"] = confirmed;
+
+            #endregion
 
             if (id == null)
             {
                 return NotFound();
             }
 
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var showToUpdate = await _context.Shows
                 .Include(q=>q.Film)
                 .Include(p => p.Hall)
@@ -73,15 +79,20 @@ namespace CinemaManager.Controllers
                 return NotFound();
             }
 
-            //zanim wejdziesz do ifa, sprawdz czy nie ma w kontekscie tych parametrow
-            //w gecie details na poczatku sprawdzaj czy cos jest modyfikowane; jesli jest to znajdz jego seat, row i date i zrob je zolte disabled; 
-            //jesli datetime.now-data zapisana > 60s, usun ja i reload
-            //jesli w y jest ustawione row i column pod reservation
-            //pole ma byc na zolto i blocked
-
             if (row != null && column != null)
             {
-                string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                
+                //var selected = await _context.Reservations.FirstOrDefaultAsync(
+                //    x => x.UserId == userId && 
+                //    x.Show.Id == id && 
+                //    x.SeatRow == row && 
+                //    x.SeatColumn == column
+                //);
+
+                //if (selected != null)
+                //{
+
+                //}
 
                 var prevRes = await _context.Reservations.FirstOrDefaultAsync(x => x.UserId == userId && x.Show.Id == id);
 

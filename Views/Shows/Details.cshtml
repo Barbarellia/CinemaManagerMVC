@@ -58,29 +58,25 @@
 
         for (int j = 0; j < Model.Hall.Columns; j++)
         {
-            //jesli sa jakies rezerwacje na ten show
-            if (notConfirmed != null && notConfirmed.Count > 0 && notConfirmed.Any(q => q.SeatRow == i && q.SeatColumn == j))
+            //jesli drukujesz button ktory jest tymczasowo zarezerwowany
+            if ((notConfirmed != null && notConfirmed.Count > 0 && notConfirmed.Any(q => q.SeatRow == i && q.SeatColumn == j)) || 
+                (TempData["row"] != null && TempData["column"] != null && i == (int)TempData["row"] && j == (int)TempData["column"]))
             {
-                <a class="btn btn-danger disabled" role="button" style="width:40px">@(i * Model.Hall.Rows + j + 1)</a>
+                <a class="btn btn-warning disabled" role="button" style="width:40px">@(i * Model.Hall.Rows + j + 1)</a>
             }
+
+            @*//jesli cos zostalo klikniete i wlasnie ten button drukuje
+            if (TempData["row"] != null && TempData["column"] != null && i == (int)TempData["row"] && j == (int)TempData["column"])
+            {
+                <a asp-route-row="@i" asp-route-column="@j" class="btn btn-warning" role="button" style="width:40px" asp-action="Details">@(i * Model.Hall.Rows + j + 1)</a>
+            }*@
+
+            //drukuje zwykly button
             else
             {
-                if (TempData["row"] != null && TempData["column"] != null)
-                {
-                    if (i == (int)TempData["row"] && j == (int)TempData["column"])
-                    {
-                        <a asp-route-row="@i" asp-route-column="@j" class="btn btn-warning" role="button" style="width:40px" asp-action="Details">@(i * Model.Hall.Rows + j + 1)</a>
-                    }
-                    else
-                    {
-                        <a asp-route-row="@i" asp-route-column="@j" class="btn btn-outline-primary" role="button" style="width:40px" asp-action="Details">@(i * Model.Hall.Rows + j + 1)</a>
-                    }
-                }
-                else
-                {
-                    <a asp-route-row="@i" asp-route-column="@j" class="btn btn-outline-primary" role="button" style="width:40px" asp-action="Details">@(i * Model.Hall.Rows + j + 1)</a>
-                }
+                <a asp-route-row="@i" asp-route-column="@j" class="btn btn-outline-primary" role="button" style="width:40px" asp-action="Details">@(i * Model.Hall.Rows + j + 1)</a>
             }
+            
         }
         <br />
     }
