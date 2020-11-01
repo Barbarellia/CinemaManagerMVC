@@ -50,6 +50,11 @@
     </dl>
 </div>
 <div asp-validation-summary="ModelOnly" class="text-warning"></div>
+@if ((bool)TempData["isClicked"] == true)
+{
+    <div class="text-warning" id="timecountdown"></div>
+}
+
 @{
     List<Reservation> notConfirmed = (List<Reservation>)TempData["notConfirmed"];
     List<Reservation> confirmed = (List<Reservation>)TempData["confirmed"];
@@ -60,8 +65,8 @@
             //jesli drukujesz button ktory jest tymczasowo zarezerwowany
             //if ((notConfirmed != null && notConfirmed.Count > 0 && notConfirmed.Any(q => q.SeatRow == i && q.SeatColumn == j)) ||
             //    (TempData["row"] != null && TempData["column"] != null && i == (int)TempData["row"] && j == (int)TempData["column"]))
-            if(notConfirmed.Any(x=>x.SeatColumn==j && x.SeatRow==i) || 
-                            ((TempData["row"] != null && TempData["column"] != null) && 
+            if (notConfirmed.Any(x => x.SeatColumn == j && x.SeatRow == i) ||
+                            ((TempData["row"] != null && TempData["column"] != null) &&
                             (i == (int)TempData["row"] && j == (int)TempData["column"])))
             {
                 <a class="btn btn-warning disabled" role="button" style="width:40px">@(i * Model.Hall.Rows + j + 1)</a>
@@ -78,7 +83,7 @@
             {
                 <a asp-route-row="@i" asp-route-column="@j" class="btn btn-outline-primary" role="button" style="width:40px" asp-action="Details">@(i * Model.Hall.Rows + j + 1)</a>
             }
-            
+
         }
         <br />
     }
@@ -93,3 +98,38 @@
     }
     <a asp-action="Index">Back to List</a>
 </div>
+
+<script>
+    var dt = '@DateTime.Now.AddSeconds(10).ToString("dd-MM-yyyy HH:mm:ss")';
+    var dateAr = dt.split('-');
+    var newDate = dateAr[1] + '/' + dateAr[0] + '/' + dateAr[2];
+
+    var end = new Date(dateAr[1] + '/' + dateAr[0] + '/' + dateAr[2]);
+
+    var _second = 1000;
+    var _minute = _second * 60;
+    var _hour = _minute * 60;
+    var _day = _hour * 24;
+    var timer;
+
+    function showRemaining() {
+        var now = new Date();
+        var distance = end - now;
+        if (distance < 0) {
+            clearInterval(timer);
+            document.getElementById('timecountdown').innerHTML = 'Countdown ends!';
+            window.location.href = '/Shows';
+
+            return;
+        }
+        var days = Math.floor(distance / _day);
+        var _hours = Math.floor((distance % _day) / _hour);
+        var _minutes = Math.floor((distance % _hour) / _minute);
+        var _seconds = Math.floor((distance % _minute) / _second);
+
+        document.getElementById('timecountdown').innerHTML = ' Hrs: ' + _hours;
+        document.getElementById('timecountdown').innerHTML += ' Mins: ' + _minutes;
+        document.getElementById('timecountdown').innerHTML += _seconds + ' sekund ';
+    }
+    timer = setInterval(showRemaining, 1000);
+</script>

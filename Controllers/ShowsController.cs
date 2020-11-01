@@ -69,6 +69,7 @@ namespace CinemaManager.Controllers
             TempData["notConfirmed"] = notConfirmed;
             TempData["confirmed"] = confirmed;
             TempData["reservationId"] = 0;
+            TempData["isClicked"] = false;
 
             #endregion
 
@@ -145,8 +146,8 @@ namespace CinemaManager.Controllers
 
                 //_timer = new Timer(DoWork, null, 0, 100);
 
-                ModelState.AddModelError(string.Empty, "Rezerwuj bilet szypko, masz 10 s.");
-            
+                ModelState.AddModelError(string.Empty, "Rezerwuj bilet szypko! Zostało: ");
+                TempData["isClicked"] = true;
             }
             return View(showToUpdate);
         }
