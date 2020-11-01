@@ -12,7 +12,23 @@ namespace AspNetCore
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.Rendering;
     using Microsoft.AspNetCore.Mvc.ViewFeatures;
+#line 1 "D:\C#Projects\CinemaManagerMVC\Areas\Identity\Pages\_ViewImports.cshtml"
+using Microsoft.AspNetCore.Identity;
+
+#line default
+#line hidden
+#line 2 "D:\C#Projects\CinemaManagerMVC\Areas\Identity\Pages\_ViewImports.cshtml"
+using CinemaManager.Areas.Identity;
+
+#line default
+#line hidden
+#line 3 "D:\C#Projects\CinemaManagerMVC\Areas\Identity\Pages\_ViewImports.cshtml"
+using CinemaManager.Areas.Identity.Pages;
+
+#line default
+#line hidden
     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"13b82ef97968a56a4de533f67cf3e21d662f41aa", @"/Areas/Identity/Pages/_ViewStart.cshtml")]
+    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"2cf9877f133dd33096afde0e4c6bca6ab0061899", @"/Areas/Identity/Pages/_ViewImports.cshtml")]
     public class Areas_Identity_Pages__ViewStart : global::Microsoft.AspNetCore.Mvc.Razor.RazorPage<dynamic>
     {
         #pragma warning disable 1998

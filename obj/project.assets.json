@@ -743,6 +743,18 @@
           "lib/netstandard2.0/Microsoft.Extensions.Logging.Abstractions.dll": {}
         }
       },
+      "Microsoft.Extensions.Logging.Debug/3.1.0-preview1.19506.1": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Extensions.Logging": "3.1.0-preview1.19506.1"
+        },
+        "compile": {
+          "lib/netcoreapp3.1/Microsoft.Extensions.Logging.Debug.dll": {}
+        },
+        "runtime": {
+          "lib/netcoreapp3.1/Microsoft.Extensions.Logging.Debug.dll": {}
+        }
+      },
       "Microsoft.Extensions.Options/3.1.9": {
         "type": "package",
         "dependencies": {
@@ -3867,6 +3879,22 @@
         "lib/netstandard2.0/Microsoft.Extensions.Logging.Abstractions.xml",
         "microsoft.extensions.logging.abstractions.3.1.9.nupkg.sha512",
         "microsoft.extensions.logging.abstractions.nuspec"
+      ]
+    },
+    "Microsoft.Extensions.Logging.Debug/3.1.0-preview1.19506.1": {
+      "sha512": "zB9VDZ5DK42fl63itdsAmuwMFEh2vt1D5eVpX7+jzDKoz272q2iK3hqy4s7PA2V/9AzLaUXbVibN3P/havkNxA==",
+      "type": "package",
+      "path": "microsoft.extensions.logging.debug/3.1.0-preview1.19506.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/netcoreapp3.1/Microsoft.Extensions.Logging.Debug.dll",
+        "lib/netcoreapp3.1/Microsoft.Extensions.Logging.Debug.xml",
+        "lib/netstandard2.0/Microsoft.Extensions.Logging.Debug.dll",
+        "lib/netstandard2.0/Microsoft.Extensions.Logging.Debug.xml",
+        "microsoft.extensions.logging.debug.3.1.0-preview1.19506.1.nupkg.sha512",
+        "microsoft.extensions.logging.debug.nuspec",
+        "packageIcon.png"
       ]
     },
     "Microsoft.Extensions.Options/3.1.9": {
@@ -9184,6 +9212,7 @@
       "Microsoft.EntityFrameworkCore.SqlServer >= 3.1.9",
       "Microsoft.EntityFrameworkCore.Sqlite >= 3.1.9",
       "Microsoft.EntityFrameworkCore.Tools >= 3.1.9",
+      "Microsoft.Extensions.Logging.Debug >= 3.1.0-preview1.19506.1",
       "Microsoft.VisualStudio.Web.CodeGeneration.Design >= 3.1.4"
     ]
   },
@@ -9249,6 +9278,10 @@
             "suppressParent": "All",
             "target": "Package",
             "version": "[3.1.9, )"
+          },
+          "Microsoft.Extensions.Logging.Debug": {
+            "target": "Package",
+            "version": "[3.1.0-preview1.19506.1, )"
           },
           "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
             "target": "Package",

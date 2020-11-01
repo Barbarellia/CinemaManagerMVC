@@ -23,6 +23,7 @@ namespace CinemaManager.Controllers
         public async Task<IActionResult> Index()
         {
             return View(await _context.Films.ToListAsync());
+            
         }
 
         // GET: Films/Details/5

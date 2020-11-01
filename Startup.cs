@@ -30,7 +30,7 @@ namespace CinemaManager
             services.AddDbContext<CinemaManagerContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("CinemaManagerContext")));
 
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            services.AddDefaultIdentity<IdentityUser>()
                 .AddEntityFrameworkStores<CinemaManagerContext>();
 
             services.AddRazorPages();

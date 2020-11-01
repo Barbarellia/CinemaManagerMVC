@@ -353,11 +353,8 @@ D:\C#Projects\CinemaManagerMVC\bin\Debug\netcoreapp3.1\runtimes\win-x86\native\e
 D:\C#Projects\CinemaManagerMVC\bin\Debug\netcoreapp3.1\runtimes\unix\lib\netcoreapp2.0\System.Runtime.Caching.dll
 D:\C#Projects\CinemaManagerMVC\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp2.0\System.Runtime.Caching.dll
 D:\C#Projects\CinemaManagerMVC\bin\Debug\netcoreapp3.1\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
-D:\C#Projects\CinemaManagerMVC\obj\Debug\netcoreapp3.1\CinemaManager.csprojAssemblyReference.cache
 D:\C#Projects\CinemaManagerMVC\obj\Debug\netcoreapp3.1\staticwebassets\CinemaManager.StaticWebAssets.Manifest.cache
 D:\C#Projects\CinemaManagerMVC\obj\Debug\netcoreapp3.1\staticwebassets\CinemaManager.StaticWebAssets.xml
-D:\C#Projects\CinemaManagerMVC\obj\Debug\netcoreapp3.1\CinemaManager.MvcApplicationPartsAssemblyInfo.cs
-D:\C#Projects\CinemaManagerMVC\obj\Debug\netcoreapp3.1\CinemaManager.MvcApplicationPartsAssemblyInfo.cache
 D:\C#Projects\CinemaManagerMVC\obj\Debug\netcoreapp3.1\CinemaManager.RazorAssemblyInfo.cache
 D:\C#Projects\CinemaManagerMVC\obj\Debug\netcoreapp3.1\CinemaManager.RazorAssemblyInfo.cs
 D:\C#Projects\CinemaManagerMVC\obj\Debug\netcoreapp3.1\CinemaManager.AssemblyInfoInputs.cache
@@ -390,3 +387,11 @@ D:\C#Projects\CinemaManagerMVC\obj\Debug\netcoreapp3.1\CinemaManager.Views.pdb
 D:\C#Projects\CinemaManagerMVC\obj\Debug\netcoreapp3.1\CinemaManager.csproj.CopyComplete
 D:\C#Projects\CinemaManagerMVC\obj\Debug\netcoreapp3.1\CinemaManager.dll
 D:\C#Projects\CinemaManagerMVC\obj\Debug\netcoreapp3.1\CinemaManager.pdb
+D:\C#Projects\CinemaManagerMVC\obj\Debug\netcoreapp3.1\CinemaManager.MvcApplicationPartsAssemblyInfo.cs
+D:\C#Projects\CinemaManagerMVC\obj\Debug\netcoreapp3.1\CinemaManager.MvcApplicationPartsAssemblyInfo.cache
+D:\C#Projects\CinemaManagerMVC\obj\Debug\netcoreapp3.1\Razor\Areas\Identity\Pages\Account\Login.cshtml.g.cs
+D:\C#Projects\CinemaManagerMVC\obj\Debug\netcoreapp3.1\Razor\Areas\Identity\Pages\Account\Register.cshtml.g.cs
+D:\C#Projects\CinemaManagerMVC\obj\Debug\netcoreapp3.1\Razor\Areas\Identity\Pages\Account\_ViewImports.cshtml.g.cs
+D:\C#Projects\CinemaManagerMVC\obj\Debug\netcoreapp3.1\Razor\Areas\Identity\Pages\_ValidationScriptsPartial.cshtml.g.cs
+D:\C#Projects\CinemaManagerMVC\obj\Debug\netcoreapp3.1\Razor\Areas\Identity\Pages\_ViewImports.cshtml.g.cs
+D:\C#Projects\CinemaManagerMVC\obj\Debug\netcoreapp3.1\Razor\Views\Users\Users.cshtml.g.cs

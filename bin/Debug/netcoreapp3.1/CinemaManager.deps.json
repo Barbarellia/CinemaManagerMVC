@@ -30,6 +30,7 @@
           "Microsoft.EntityFrameworkCore.SqlServer": "3.1.9",
           "Microsoft.EntityFrameworkCore.Sqlite": "3.1.9",
           "Microsoft.EntityFrameworkCore.Tools": "3.1.9",
+          "Microsoft.Extensions.Logging.Debug": "3.1.0-preview1.19506.1",
           "Microsoft.VisualStudio.Web.CodeGeneration.Design": "3.1.4",
           "Microsoft.AspNetCore.Antiforgery": "3.1.0.0",
           "Microsoft.AspNetCore.Authentication.Abstractions": "3.1.0.0",
@@ -127,7 +128,7 @@
           "Microsoft.Extensions.Localization": "3.1.0.0",
           "Microsoft.Extensions.Logging.Configuration": "3.1.0.0",
           "Microsoft.Extensions.Logging.Console": "3.1.0.0",
-          "Microsoft.Extensions.Logging.Debug": "3.1.0.0",
+          "Microsoft.Extensions.Logging.Debug.Reference": "3.1.0.0",
           "Microsoft.Extensions.Logging.EventLog": "3.1.0.0",
           "Microsoft.Extensions.Logging.EventSource": "3.1.0.0",
           "Microsoft.Extensions.Logging.TraceSource": "3.1.0.0",
@@ -1040,6 +1041,11 @@
         },
         "compile": {
           "lib/netstandard2.0/Microsoft.Extensions.Logging.Abstractions.dll": {}
+        }
+      },
+      "Microsoft.Extensions.Logging.Debug/3.1.0-preview1.19506.1": {
+        "dependencies": {
+          "Microsoft.Extensions.Logging": "3.1.9"
         }
       },
       "Microsoft.Extensions.Options/3.1.9": {
@@ -3097,7 +3103,7 @@
         },
         "compileOnly": true
       },
-      "Microsoft.Extensions.Logging.Debug/3.1.0.0": {
+      "Microsoft.Extensions.Logging.Debug.Reference/3.1.0.0": {
         "compile": {
           "Microsoft.Extensions.Logging.Debug.dll": {}
         },
@@ -4408,6 +4414,13 @@
       "sha512": "sha512-W5fbF8qVR9SMVVJqDQLIR7meWbev6Pu/lbrm7LDNr4Sp7HOotr4k2UULTdFSXOi5aoDdkQZpWnq0ZSpjrR3tjg==",
       "path": "microsoft.extensions.logging.abstractions/3.1.9",
       "hashPath": "microsoft.extensions.logging.abstractions.3.1.9.nupkg.sha512"
+    },
+    "Microsoft.Extensions.Logging.Debug/3.1.0-preview1.19506.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-zB9VDZ5DK42fl63itdsAmuwMFEh2vt1D5eVpX7+jzDKoz272q2iK3hqy4s7PA2V/9AzLaUXbVibN3P/havkNxA==",
+      "path": "microsoft.extensions.logging.debug/3.1.0-preview1.19506.1",
+      "hashPath": "microsoft.extensions.logging.debug.3.1.0-preview1.19506.1.nupkg.sha512"
     },
     "Microsoft.Extensions.Options/3.1.9": {
       "type": "package",
@@ -5827,7 +5840,7 @@
       "serviceable": false,
       "sha512": ""
     },
-    "Microsoft.Extensions.Logging.Debug/3.1.0.0": {
+    "Microsoft.Extensions.Logging.Debug.Reference/3.1.0.0": {
       "type": "referenceassembly",
       "serviceable": false,
       "sha512": ""
