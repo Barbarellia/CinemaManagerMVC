@@ -52,24 +52,26 @@
 <div asp-validation-summary="ModelOnly" class="text-warning"></div>
 @{
     List<Reservation> notConfirmed = (List<Reservation>)TempData["notConfirmed"];
+    List<Reservation> confirmed = (List<Reservation>)TempData["confirmed"];
     for (int i = 0; i < Model.Hall.Rows; i++)
     {
-        //string selectedSeat = TempData["selectedSeat"].ToString();
-
         for (int j = 0; j < Model.Hall.Columns; j++)
         {
             //jesli drukujesz button ktory jest tymczasowo zarezerwowany
-            if ((notConfirmed != null && notConfirmed.Count > 0 && notConfirmed.Any(q => q.SeatRow == i && q.SeatColumn == j)) || 
-                (TempData["row"] != null && TempData["column"] != null && i == (int)TempData["row"] && j == (int)TempData["column"]))
+            //if ((notConfirmed != null && notConfirmed.Count > 0 && notConfirmed.Any(q => q.SeatRow == i && q.SeatColumn == j)) ||
+            //    (TempData["row"] != null && TempData["column"] != null && i == (int)TempData["row"] && j == (int)TempData["column"]))
+            if(notConfirmed.Any(x=>x.SeatColumn==j && x.SeatRow==i) || 
+                            ((TempData["row"] != null && TempData["column"] != null) && 
+                            (i == (int)TempData["row"] && j == (int)TempData["column"])))
             {
                 <a class="btn btn-warning disabled" role="button" style="width:40px">@(i * Model.Hall.Rows + j + 1)</a>
             }
 
-            @*//jesli cos zostalo klikniete i wlasnie ten button drukuje
-            if (TempData["row"] != null && TempData["column"] != null && i == (int)TempData["row"] && j == (int)TempData["column"])
+            //jesli drukujesz button ktory jest zarezerwowany
+            else if (confirmed != null && confirmed.Count > 0 && confirmed.Any(q => q.SeatRow == i && q.SeatColumn == j))
             {
-                <a asp-route-row="@i" asp-route-column="@j" class="btn btn-warning" role="button" style="width:40px" asp-action="Details">@(i * Model.Hall.Rows + j + 1)</a>
-            }*@
+                <a asp-route-row="@i" asp-route-column="@j" class="btn btn-danger disabled" role="button" style="width:40px" asp-action="Details">@(i * Model.Hall.Rows + j + 1)</a>
+            }
 
             //drukuje zwykly button
             else
@@ -82,7 +84,12 @@
     }
 }
 <div>
-    @*<a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |*@
-    <a asp-action="Edit" asp-route-id="@Model.Id">Confirm</a> |
+    @{
+        int resId = (int)TempData["reservationId"];
+        if (resId != 0)
+        {
+            <a asp-route-confirmId="@resId">Confirm |</a>
+        }
+    }
     <a asp-action="Index">Back to List</a>
 </div>

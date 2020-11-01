@@ -41,7 +41,6 @@ namespace CinemaManager
                 {
                     webBuilder.UseStartup<Startup>();
                 });
-
         
     }
 }

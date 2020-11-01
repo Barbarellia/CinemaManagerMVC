@@ -10,6 +10,7 @@ using CinemaManager.Models;
 using Microsoft.VisualStudio.Web.CodeGeneration.Contracts.Messaging;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
+using System.Threading;
 
 namespace CinemaManager.Controllers
 {
@@ -18,6 +19,7 @@ namespace CinemaManager.Controllers
         private readonly CinemaManagerContext _context;
         private readonly UserManager<IdentityUser> _userManager;
         private readonly TimeSpan expTime = new TimeSpan(0, 0, 10);
+        private Timer _timer;
 
         public ShowsController(CinemaManagerContext context, UserManager<IdentityUser> userManager)
         {
@@ -35,8 +37,14 @@ namespace CinemaManager.Controllers
         }
 
         // GET: Shows/Details/5
-        public async Task<IActionResult> Details(int? id, int? row, int? column)
-        {       
+        public async Task<IActionResult> Details(int? id, int? row, int? column, int? confirmId)
+        {
+            if(confirmId != null)
+            {
+                await ConfirmReservation(confirmId);
+                return RedirectToAction(nameof(Index));
+            }
+
             #region ExtractConfirmed
 
             var allShowReservations = await _context.Reservations
@@ -59,7 +67,8 @@ namespace CinemaManager.Controllers
             }
 
             TempData["notConfirmed"] = notConfirmed;
-            //TempData["confirmed"] = confirmed;
+            TempData["confirmed"] = confirmed;
+            TempData["reservationId"] = 0;
 
             #endregion
 
@@ -81,20 +90,7 @@ namespace CinemaManager.Controllers
 
             if (row != null && column != null)
             {
-                
-                //var selected = await _context.Reservations.FirstOrDefaultAsync(
-                //    x => x.UserId == userId && 
-                //    x.Show.Id == id && 
-                //    x.SeatRow == row && 
-                //    x.SeatColumn == column
-                //);
-
-                //if (selected != null)
-                //{
-
-                //}
-
-                var prevRes = await _context.Reservations.FirstOrDefaultAsync(x => x.UserId == userId && x.Show.Id == id);
+                var prevRes = await _context.Reservations.FirstOrDefaultAsync(x => x.UserId == userId && x.Show.Id == id && x.IsConfirmed==false);
 
                 if (prevRes != null)
                 {
@@ -105,6 +101,7 @@ namespace CinemaManager.Controllers
                     {
                         prevRes.SeatRow = row;
                         prevRes.SeatColumn = column;
+                        prevRes.ClickDate = DateTime.Now;
                     }
                 }
                 else
@@ -123,13 +120,53 @@ namespace CinemaManager.Controllers
                 }
                 await _context.SaveChangesAsync();
 
-                TempData["row"] = (int)row;
-                TempData["column"] = (int)column;
+                TempData["row"] = row;
+                TempData["column"] = column;
+                
+                var selected = _context.Reservations.FirstOrDefault
+                (
+                    x => x.IsConfirmed == false &&
+                    x.UserId == userId &&
+                    x.SeatRow == row &&
+                    x.SeatColumn == column &&
+                    x.Show.Id == id
+                );
+                if (selected != null)
+                {
+                    TempData["reservationId"] = selected.Id;
+                }
+                //int executionCount = 0;
 
-                ModelState.AddModelError(string.Empty, "Rezerwuj bilet szypko, masz 60s");
+                //void DoWork(object state)
+                //{
+                //    var count = Interlocked.Increment(ref executionCount);
+                //    ModelState.AddModelError(string.Empty, "Rezerwuj bilet szypko, masz "+ count +" s.");
+                //}
+
+                //_timer = new Timer(DoWork, null, 0, 100);
+
+                ModelState.AddModelError(string.Empty, "Rezerwuj bilet szypko, masz 10 s.");
+            
+            }
+            return View(showToUpdate);
+        }
+
+        public async Task<IActionResult> ConfirmReservation(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
             }
 
-            return View(showToUpdate);
+            var reservation = await _context.Reservations.FirstOrDefaultAsync(x => x.Id == id);
+
+            reservation.ConfirmationDate = DateTime.Now;
+            reservation.IsConfirmed = true;
+
+            _context.Update(reservation);
+
+            await _context.SaveChangesAsync();
+            return null;
         }
 
         // GET: Shows/Create
@@ -167,7 +204,6 @@ namespace CinemaManager.Controllers
             {
                 //jesli nie ma takiego filmu, to zaznacz okienko na czerwono
                 ModelState.AddModelError(string.Empty, "Film o podanym tytule nie istnieje w bazie");
-                //return View();
             }
             else
             {
