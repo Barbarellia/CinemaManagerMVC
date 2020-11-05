@@ -1,20 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "D:\\C#Projects\\CinemaManagerMVC\\CinemaManager.csproj": {}
+    "C:\\Users\\user\\source\\repos\\CinemaManager\\CinemaManager\\CinemaManager.csproj": {}
   },
   "projects": {
-    "D:\\C#Projects\\CinemaManagerMVC\\CinemaManager.csproj": {
+    "C:\\Users\\user\\source\\repos\\CinemaManager\\CinemaManager\\CinemaManager.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\C#Projects\\CinemaManagerMVC\\CinemaManager.csproj",
+        "projectUniqueName": "C:\\Users\\user\\source\\repos\\CinemaManager\\CinemaManager\\CinemaManager.csproj",
         "projectName": "CinemaManager",
-        "projectPath": "D:\\C#Projects\\CinemaManagerMVC\\CinemaManager.csproj",
-        "packagesPath": "C:\\Users\\basia\\.nuget\\packages\\",
-        "outputPath": "D:\\C#Projects\\CinemaManagerMVC\\obj\\",
+        "projectPath": "C:\\Users\\user\\source\\repos\\CinemaManager\\CinemaManager\\CinemaManager.csproj",
+        "packagesPath": "C:\\Users\\user\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\user\\source\\repos\\CinemaManager\\CinemaManager\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
         "configFilePaths": [
-          "C:\\Users\\basia\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\user\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -48,7 +51,7 @@
             },
             "Microsoft.AspNetCore.Identity.UI": {
               "target": "Package",
-              "version": "[3.1.8, )"
+              "version": "[3.1.9, )"
             },
             "Microsoft.EntityFrameworkCore.SqlServer": {
               "target": "Package",
@@ -91,7 +94,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.100\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.402\\RuntimeIdentifierGraph.json"
         }
       }
     }

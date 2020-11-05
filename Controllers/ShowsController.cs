@@ -11,6 +11,7 @@ using Microsoft.VisualStudio.Web.CodeGeneration.Contracts.Messaging;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
 using System.Threading;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CinemaManager.Controllers
 {
@@ -19,9 +20,9 @@ namespace CinemaManager.Controllers
         private readonly CinemaManagerContext _context;
         private readonly UserManager<IdentityUser> _userManager;
         private readonly TimeSpan expTime = new TimeSpan(0, 0, 10);
-        private Timer _timer;
 
-        public ShowsController(CinemaManagerContext context, UserManager<IdentityUser> userManager)
+        public ShowsController(CinemaManagerContext context, 
+            UserManager<IdentityUser> userManager)
         {
             _context = context;
             _userManager = userManager;
@@ -37,6 +38,7 @@ namespace CinemaManager.Controllers
         }
 
         // GET: Shows/Details/5
+        [Authorize]
         public async Task<IActionResult> Details(int? id, int? row, int? column, int? confirmId)
         {
             if(confirmId != null)
@@ -66,6 +68,12 @@ namespace CinemaManager.Controllers
                 await _context.SaveChangesAsync();
             }
 
+            //notConfirmed = notConfirmed - expired
+            notConfirmed = _context.Reservations
+                .Include(x => x.Show)
+                .Where(x => x.Show.Id == id && !x.IsConfirmed)
+                .ToList();
+
             TempData["notConfirmed"] = notConfirmed;
             TempData["confirmed"] = confirmed;
             TempData["reservationId"] = 0;
@@ -91,63 +99,65 @@ namespace CinemaManager.Controllers
 
             if (row != null && column != null)
             {
-                var prevRes = await _context.Reservations.FirstOrDefaultAsync(x => x.UserId == userId && x.Show.Id == id && x.IsConfirmed==false);
+                var resOnSeat = await _context.Reservations.FirstOrDefaultAsync(x => x.IsConfirmed == false && x.Show.Id == id && x.SeatRow == row && x.SeatColumn == column);
 
-                if (prevRes != null)
+                if (resOnSeat != null)
                 {
-                    if (await TryUpdateModelAsync<Reservation>(
-                        prevRes,
-                        "",
-                        s => s.SeatRow, s => s.SeatColumn))
-                    {
-                        prevRes.SeatRow = row;
-                        prevRes.SeatColumn = column;
-                        prevRes.ClickDate = DateTime.Now;
-                    }
+                    ModelState.AddModelError(string.Empty, "This seat is temporary booked. Book another seat or check its availability later.");
                 }
+
                 else
                 {
-                    Reservation res = new Reservation
+                    var prevRes = await _context.Reservations.FirstOrDefaultAsync(x => x.UserId == userId && x.Show.Id == id && x.IsConfirmed == false);
+
+                    if (prevRes != null)
                     {
-                        Show = showToUpdate,
-                        SeatRow = row,
-                        SeatColumn = column,
-                        UserId = userId,
-                        ClickDate = DateTime.Now,
-                        IsConfirmed = false
-                    };
+                        if (await TryUpdateModelAsync<Reservation>(
+                            prevRes,
+                            "",
+                            s => s.SeatRow, s => s.SeatColumn))
+                        {
+                            prevRes.SeatRow = row;
+                            prevRes.SeatColumn = column;
+                            prevRes.ClickDate = DateTime.Now;
+                        }
+                    }
+                    else
+                    {
+                        Reservation res = new Reservation
+                        {
+                            Show = showToUpdate,
+                            SeatRow = row,
+                            SeatColumn = column,
+                            UserId = userId,
+                            ClickDate = DateTime.Now,
+                            IsConfirmed = false
+                        };
 
-                    _context.Reservations.Add(res);
+                        _context.Reservations.Add(res);
+                    }
+                    await _context.SaveChangesAsync();
+
+                    TempData["row"] = row;
+                    TempData["column"] = column;
+
+                    var selected = _context.Reservations.FirstOrDefault
+                    (
+                        x => x.IsConfirmed == false &&
+                        x.UserId == userId &&
+                        x.SeatRow == row &&
+                        x.SeatColumn == column &&
+                        x.Show.Id == id
+                    );
+                    if (selected != null)
+                    {
+                        TempData["reservationId"] = selected.Id;
+                    }
+
+                    ModelState.AddModelError(string.Empty, "Confirm your reservation, otherwise it will be removed in:");
+                    TempData["isClicked"] = true;
                 }
-                await _context.SaveChangesAsync();
-
-                TempData["row"] = row;
-                TempData["column"] = column;
                 
-                var selected = _context.Reservations.FirstOrDefault
-                (
-                    x => x.IsConfirmed == false &&
-                    x.UserId == userId &&
-                    x.SeatRow == row &&
-                    x.SeatColumn == column &&
-                    x.Show.Id == id
-                );
-                if (selected != null)
-                {
-                    TempData["reservationId"] = selected.Id;
-                }
-                //int executionCount = 0;
-
-                //void DoWork(object state)
-                //{
-                //    var count = Interlocked.Increment(ref executionCount);
-                //    ModelState.AddModelError(string.Empty, "Rezerwuj bilet szypko, masz "+ count +" s.");
-                //}
-
-                //_timer = new Timer(DoWork, null, 0, 100);
-
-                ModelState.AddModelError(string.Empty, "Rezerwuj bilet szypko! Zostało: ");
-                TempData["isClicked"] = true;
             }
             return View(showToUpdate);
         }
@@ -173,15 +183,6 @@ namespace CinemaManager.Controllers
         // GET: Shows/Create
         public IActionResult Create()
         {
-            //IQueryable<string> titleQuery = from f in _context.Films
-            //                                orderby f.Title
-            //                                select f.Title;
-         
-            //var filmTitleVM = new FilmTitleViewModel
-            //{
-            //    //Film = await _context.Films.ToListAsync(),
-            //    Titles = new SelectList(await titleQuery.Distinct().ToListAsync())
-            //};
             return View();
         }
 
