@@ -12,23 +12,22 @@ using Microsoft.AspNetCore.Authorization;
 namespace CinemaManager.Controllers
 {
     [Authorize(Roles = "Employee")]
-    public class FilmsController : Controller
+    public class HallsController : Controller
     {
         private readonly CinemaManagerContext _context;
 
-        public FilmsController(CinemaManagerContext context)
+        public HallsController(CinemaManagerContext context)
         {
             _context = context;
         }
 
-        // GET: Films
+        // GET: Halls
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Films.ToListAsync());
-            
+            return View(await _context.Halls.ToListAsync());
         }
 
-        // GET: Films/Details/5
+        // GET: Halls/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -36,39 +35,39 @@ namespace CinemaManager.Controllers
                 return NotFound();
             }
 
-            var film = await _context.Films
+            var hall = await _context.Halls
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (film == null)
+            if (hall == null)
             {
                 return NotFound();
             }
 
-            return View(film);
+            return View(hall);
         }
 
-        // GET: Films/Create
+        // GET: Halls/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Films/Create
+        // POST: Halls/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Title")] Film film)
+        public async Task<IActionResult> Create([Bind("Id,Nr,Rows,Columns")] Hall hall)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(film);
+                _context.Add(hall);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(film);
+            return View(hall);
         }
 
-        // GET: Films/Edit/5
+        // GET: Halls/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -76,22 +75,22 @@ namespace CinemaManager.Controllers
                 return NotFound();
             }
 
-            var film = await _context.Films.FindAsync(id);
-            if (film == null)
+            var hall = await _context.Halls.FindAsync(id);
+            if (hall == null)
             {
                 return NotFound();
             }
-            return View(film);
+            return View(hall);
         }
 
-        // POST: Films/Edit/5
+        // POST: Halls/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Title")] Film film)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Nr,Rows,Columns")] Hall hall)
         {
-            if (id != film.Id)
+            if (id != hall.Id)
             {
                 return NotFound();
             }
@@ -100,12 +99,12 @@ namespace CinemaManager.Controllers
             {
                 try
                 {
-                    _context.Update(film);
+                    _context.Update(hall);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!FilmExists(film.Id))
+                    if (!HallExists(hall.Id))
                     {
                         return NotFound();
                     }
@@ -116,10 +115,10 @@ namespace CinemaManager.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(film);
+            return View(hall);
         }
 
-        // GET: Films/Delete/5
+        // GET: Halls/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -127,30 +126,30 @@ namespace CinemaManager.Controllers
                 return NotFound();
             }
 
-            var film = await _context.Films
+            var hall = await _context.Halls
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (film == null)
+            if (hall == null)
             {
                 return NotFound();
             }
 
-            return View(film);
+            return View(hall);
         }
 
-        // POST: Films/Delete/5
+        // POST: Halls/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var film = await _context.Films.FindAsync(id);
-            _context.Films.Remove(film);
+            var hall = await _context.Halls.FindAsync(id);
+            _context.Halls.Remove(hall);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool FilmExists(int id)
+        private bool HallExists(int id)
         {
-            return _context.Films.Any(e => e.Id == id);
+            return _context.Halls.Any(e => e.Id == id);
         }
     }
 }

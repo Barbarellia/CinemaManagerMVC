@@ -5,10 +5,13 @@
 }
 
 <h1>Index</h1>
+@if (User.IsInRole("Employee"))
+{
+    <p>
+        <a asp-action="Create">Create New</a>
+    </p>
+}
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
 <table class="table">
     <thead>
         <tr>
@@ -31,29 +34,35 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Film.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Genre)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Price)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ShowDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Hall.Nr)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Film.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Genre)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ShowDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Hall.Nr)
+                </td>
+                <td>
+                    @if (User.IsInRole("Employee"))
+                    {
+                        <a asp-action="Edit" asp-route-id="@item.Id">Edit |</a>
+                        <a asp-action="Delete" asp-route-id="@item.Id"> Delete | </a>
+                    }
+
+                    <a asp-action="Details" asp-route-id="@item.Id">Book a ticket</a>
+
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

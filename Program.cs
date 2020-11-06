@@ -8,6 +8,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using CinemaManager.Data;
 using CinemaManager.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace CinemaManager
 {
@@ -41,6 +42,5 @@ namespace CinemaManager
                 {
                     webBuilder.UseStartup<Startup>();
                 });
-        
     }
 }

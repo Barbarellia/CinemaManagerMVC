@@ -4,6 +4,8 @@ using CinemaManager.Data;
 using System;
 using System.Linq;
 using CinemaManager.Controllers;
+using Microsoft.AspNetCore.Identity;
+using System.Threading.Tasks;
 
 namespace CinemaManager.Models
 {

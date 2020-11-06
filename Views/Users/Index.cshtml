@@ -1,19 +1,19 @@
-﻿@model IEnumerable<Microsoft.AspNetCore.Identity.IdentityUser>
+﻿@model IEnumerable<IdentityUserViewModel>
 @{
     ViewData["Title"] = "Users";
 }
 
 <h1>Users</h1>
 
-<p>
+@*<p>
     <a asp-action="Create">Create New</a>
-</p>
+</p>*@
 
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Id)
+                @Html.DisplayNameFor(model => model.Role)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.UserName)
@@ -26,16 +26,14 @@
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Id)
+                    @Html.DisplayFor(modelItem => item.Role)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.UserName)
                 </td>
                
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                    @*<a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>*@
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
                 </td>
             </tr>
         }

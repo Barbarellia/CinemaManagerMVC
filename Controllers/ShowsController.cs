@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace CinemaManager.Controllers
 {
+    [Authorize(Roles = "Customer,Employee")]
     public class ShowsController : Controller
     {
         private readonly CinemaManagerContext _context;
@@ -22,7 +23,8 @@ namespace CinemaManager.Controllers
         private readonly TimeSpan expTime = new TimeSpan(0, 0, 10);
 
         public ShowsController(CinemaManagerContext context, 
-            UserManager<IdentityUser> userManager)
+            UserManager<IdentityUser> userManager,
+            RoleManager<IdentityRole> roleManager)
         {
             _context = context;
             _userManager = userManager;
@@ -180,18 +182,19 @@ namespace CinemaManager.Controllers
             return null;
         }
 
+        [Authorize(Roles ="Employee")]
         // GET: Shows/Create
         public IActionResult Create()
         {
             return View();
         }
-
-    
+                
         // POST: Shows/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Employee")]
         public async Task<IActionResult> Create([Bind("Id,Title,Genre,Price,ShowDate")] Show show, string filmTitle, int hallNr)
         {
             if (show == null)
@@ -232,6 +235,7 @@ namespace CinemaManager.Controllers
             return View(show);
         }
 
+        [Authorize(Roles = "Employee")]
         // GET: Shows/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -247,12 +251,13 @@ namespace CinemaManager.Controllers
             }
             return View(show);
         }
-
+                
         // POST: Shows/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Employee")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Genre,Price,ShowDate")] Show show)
         {
             if (id != show.Id)
@@ -284,6 +289,7 @@ namespace CinemaManager.Controllers
         }
 
         // GET: Shows/Delete/5
+        [Authorize(Roles = "Employee")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -304,6 +310,7 @@ namespace CinemaManager.Controllers
         // POST: Shows/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Employee")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var show = await _context.Shows.FindAsync(id);
