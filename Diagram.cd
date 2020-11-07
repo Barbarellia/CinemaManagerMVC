@@ -1,16 +1,39 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
   <Class Name="CinemaManager.Models.Film">
-    <Position X="2" Y="1.25" Width="1.5" />
-    <Members>
-      <Property Name="Id" Hidden="true" />
-      <Property Name="Shows" Hidden="true" />
-      <Property Name="Title" Hidden="true" />
-    </Members>
+    <Position X="3" Y="2.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAACAAAAAAAAAEAAAAIAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Models\Film.cs</FileName>
     </TypeIdentifier>
+  </Class>
+  <Class Name="CinemaManager.Models.Hall">
+    <Position X="5" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAEAAAAIAAAAAAAAAAABAAAAAAAgAAAA=</HashCode>
+      <FileName>Models\Hall.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CinemaManager.Models.Reservation">
+    <Position X="5" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIACAABAAAAAAAAAAEAAAAoAAAAEAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>Models\Reservation.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Show" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="CinemaManager.Models.Show">
+    <Position X="8.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIACAAAAIQAAAAAAEAIAAAAAAAAABAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Show.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Hall" />
+      <Property Name="Film" />
+    </ShowAsAssociation>
   </Class>
   <Font Name="Segoe UI" Size="9" />
 </ClassDiagram>
