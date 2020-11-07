@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CinemaManager.Data;
+using CinemaManager.Helpers;
 using CinemaManager.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace CinemaManager.Controllers
 {
@@ -17,12 +19,20 @@ namespace CinemaManager.Controllers
         private readonly UserManager<IdentityUser> _userManager;
         private readonly CinemaManagerContext _context;
         private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly IConfiguration _configuration;
+        private readonly int CipherKey;
 
-        public UsersController(UserManager<IdentityUser> userManager, CinemaManagerContext context, RoleManager<IdentityRole> roleManager)
+        public UsersController(
+            UserManager<IdentityUser> userManager, 
+            CinemaManagerContext context, 
+            RoleManager<IdentityRole> roleManager, 
+            IConfiguration configuration)
         {
             _userManager = userManager;
             _context = context;
             _roleManager = roleManager;
+            _configuration = configuration;
+            CipherKey = _configuration.GetValue<int>("CipherKey");
         }
 
         public async Task<IActionResult> Index()
@@ -37,7 +47,7 @@ namespace CinemaManager.Controllers
                 IdentityUserViewModel identityUserVM = new IdentityUserViewModel
                 {
                     Id = user.Id,
-                    UserName = user.UserName,
+                    UserName = Ceasar.Decipher(user.UserName, CipherKey),
                     Role = role
                 };
                 allUsersVM.Add(identityUserVM);
@@ -45,32 +55,6 @@ namespace CinemaManager.Controllers
             return View(allUsersVM);
 
         }
-
-        //// GET: Users/Create
-        //public IActionResult Create()
-        //{
-        //    return View();
-        //}
-
-        ////POST: Users/Create/5
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Create([Bind("Id,UserName")] IdentityUser user)
-        //{            
-        //    if (user == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    if (ModelState.IsValid)
-        //    {
-        //        //await _userManager.AddToRoleAsync(user, role);
-        //        _context.Users.Add(user);
-        //        await _context.SaveChangesAsync();
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    return View(user);
-        //}
 
         // GET: Shows/Edit/5
         public IActionResult Edit(string id)

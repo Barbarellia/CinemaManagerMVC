@@ -3,6 +3,7 @@
 @{
     ViewData["Title"] = "Profile";
     ViewData["ActivePage"] = ManageNavPages.Index;
+    ViewData["Reservations"] = "Reservations";
 }
 
 <h4>@ViewData["Title"]</h4>
@@ -22,8 +23,9 @@
             </div>
             <button id="update-profile-button" type="submit" class="btn btn-primary">Save</button>
         </form>
-    </div>
+    </div>    
     <div class="col-md-6">
+        <h4>@ViewData["Reservations"]</h4>
         <table class="table">
             <thead>
                 <tr>
@@ -45,23 +47,23 @@
             <tbody>
                 @foreach (var item in Model.Reservations)
                 {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Show.Film.Title)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Show.ShowDate)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.SeatRow)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.SeatColumn)
-                    </td>
-                    <td>
-                        <a asp-page="Delete" asp-route-id="@item.Id">Delete</a>
-                    </td>
-                </tr>
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Show.Film.Title)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Show.ShowDate)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.SeatRow)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.SeatColumn)
+                        </td>
+                        <td>
+                            <a asp-page="Delete" asp-route-id="@item.Id">Delete</a>
+                        </td>
+                    </tr>
                 }
             </tbody>
         </table>

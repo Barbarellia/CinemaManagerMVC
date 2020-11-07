@@ -1,42 +1,44 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Text;
+using System.Text.Encodings.Web;
 using System.Linq;
 using System.Threading.Tasks;
-using CinemaManager.Data;
-using CinemaManager.Helpers;
-using CinemaManager.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Configuration;
+using CinemaManager.Helpers;
+using Microsoft.AspNetCore.Authentication;
 
 namespace CinemaManager.Areas.Identity.Pages.Account.Manage
 {
-    public partial class IndexModel : PageModel
+    public partial class EmailModel : PageModel
     {
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;
-        private readonly CinemaManagerContext _context;
         private readonly IConfiguration _configuration;
         private readonly int CipherKey;
 
-        public IndexModel(
+        public EmailModel(
             UserManager<IdentityUser> userManager,
             SignInManager<IdentityUser> signInManager,
-            CinemaManagerContext context,
             IConfiguration configuration)
         {
             _userManager = userManager;
             _signInManager = signInManager;
-            _context = context;
             _configuration = configuration;
             CipherKey = _configuration.GetValue<int>("CipherKey");
         }
 
         public string Username { get; set; }
-        public List<Reservation> Reservations { get; set; }
+
+        public string Email { get; set; }
+
+        public bool IsEmailConfirmed { get; set; }
 
         [TempData]
         public string StatusMessage { get; set; }
@@ -46,22 +48,23 @@ namespace CinemaManager.Areas.Identity.Pages.Account.Manage
 
         public class InputModel
         {
-            [Phone]
-            [Display(Name = "Phone number")]
-            public string PhoneNumber { get; set; }
+            [Required]
+            [EmailAddress]
+            [Display(Name = "New email")]
+            public string NewEmail { get; set; }
         }
 
         private async Task LoadAsync(IdentityUser user)
         {
-            var userName = await _userManager.GetUserNameAsync(user);
-            var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
-
-            Username = Ceasar.Decipher(userName, CipherKey);
+            var email = await _userManager.GetEmailAsync(user);
+            Email = Ceasar.Decipher(email,CipherKey);
 
             Input = new InputModel
             {
-                PhoneNumber = phoneNumber
+                NewEmail = Ceasar.Decipher(email, CipherKey)
             };
+
+            IsEmailConfirmed = await _userManager.IsEmailConfirmedAsync(user);
         }
 
         public async Task<IActionResult> OnGetAsync()
@@ -72,16 +75,18 @@ namespace CinemaManager.Areas.Identity.Pages.Account.Manage
                 return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
 
-            Reservations = await _context.Reservations.Where(x => x.UserId == user.Id && x.IsConfirmed)
-                .Include(q => q.Show)
-                .ThenInclude(p => p.Film)
-                .ToListAsync();
-
             await LoadAsync(user);
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync()
+        public async Task ChgangeEmailAndLogout(IdentityUser user, string code)
+        {
+            await _userManager.ChangeEmailAsync(user, Ceasar.Encipher(Input.NewEmail, CipherKey), code);
+            await _userManager.SetUserNameAsync(user, Ceasar.Encipher(Input.NewEmail, CipherKey));
+            await _signInManager.SignOutAsync();         
+        }
+
+        public async Task<IActionResult> OnPostChangeEmailAsync()
         {
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
@@ -95,19 +100,16 @@ namespace CinemaManager.Areas.Identity.Pages.Account.Manage
                 return Page();
             }
 
-            var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
-            if (Input.PhoneNumber != phoneNumber)
+            var email = await _userManager.GetEmailAsync(user);
+            if (Input.NewEmail != Ceasar.Decipher(email, CipherKey))
             {
-                var setPhoneResult = await _userManager.SetPhoneNumberAsync(user, Input.PhoneNumber);
-                if (!setPhoneResult.Succeeded)
-                {
-                    StatusMessage = "Unexpected error when trying to set phone number.";
-                    return RedirectToPage();
-                }
+                var code = await _userManager.GenerateChangeEmailTokenAsync(user, Ceasar.Encipher(Input.NewEmail, CipherKey));
+
+                await ChgangeEmailAndLogout(user, code);
+                return RedirectToAction("Index", "Home");
             }
 
-            await _signInManager.RefreshSignInAsync(user);
-            StatusMessage = "Your profile has been updated";
+            StatusMessage = "Your email is unchanged.";
             return RedirectToPage();
         }
     }
